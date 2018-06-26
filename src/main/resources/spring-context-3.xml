@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	<!-- service -->
+	<bean id="userService" class="com.yuzhou.service.impl.UserServiceImpl"></bean>
+	<bean id="orderService" class="com.yuzhou.service.impl.OrderServiceImpl"></bean>
+	
+	<!-- advice -->
+	<bean id="logArgsAdvice" class="com.yuzhou.advice.LogArgsAdvice"></bean>
+	<bean id="logResultAdvice" class="com.yuzhou.advice.LogResultAdvice"></bean>
+	
+	<!-- 根据bean的名称去自动代理符合条件的接口 -->
+	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="interceptorNames">
+			<list>
+				<value>logArgsAdvice</value>
+				<value>logResultAdvice</value>
+			</list>
+		</property>
+		<property name="beanNames" value="*Service"></property>
+	</bean>
+</beans>

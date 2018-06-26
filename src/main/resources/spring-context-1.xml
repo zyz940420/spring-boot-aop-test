@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	<!-- service -->
+	<bean id="userService" class="com.yuzhou.service.impl.UserServiceImpl"></bean>
+	<!-- <bean id="orderServoce" class="com.yuzhou.service.impl.OrderServiceImpl"></bean> -->
+	
+	<!-- advice -->
+	<bean id="logArgsAdvice" class="com.yuzhou.advice.LogArgsAdvice"></bean>
+	<bean id="logResultAdvice" class="com.yuzhou.advice.LogResultAdvice"></bean>
+	
+	<!-- proxy and target and advice(还可以为advisor) -->
+	<bean id="userServiceProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<!-- proxy -->
+		<property name="proxyInterfaces">
+			<list>
+				<value>com.yuzhou.service.UserService</value>
+			</list>
+		</property>
+		
+		<!-- target -->
+		<property name="target" ref="userService"></property>
+		
+		<!-- advice -->
+		<property name="interceptorNames">
+			<list>
+				<value>logArgsAdvice</value>
+				<value>logResultAdvice</value>
+			</list>
+		</property>
+	</bean>
+</beans>
